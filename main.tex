@@ -1,0 +1,51 @@
+%=================================================================
+%                           Document style
+%=================================================================
+\documentclass[12pt]{article}
+
+\input{settings/includes}
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+$highlighting-macros$
+\makeglossaries
+\input{settings/acronyms}
+
+\title{%
+    Project report title}
+
+% Author
+\author{Author}
+
+$if(csl-refs)$
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newenvironment{cslreferences}%
+  {$if(csl-hanging-indent)$\setlength{\parindent}{0pt}%
+  \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces$endif$}%
+  {\par}
+$endif$
+%*****************************************************************
+%************************Start of document************************
+%*****************************************************************
+\begin{document}
+\input{cover}
+\newpage
+%-----------------------------------------------------------------
+%                       Table of contents
+%-----------------------------------------------------------------
+\tableofcontents
+\newpage
+%-----------------------------------------------------------------
+%                           Start here:
+%-----------------------------------------------------------------
+
+\printglossaries
+
+$body$
+
+
+%*****************************************************************
+%*************************End of document*************************
+%*****************************************************************
+\end{document}

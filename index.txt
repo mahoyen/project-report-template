@@ -1,0 +1,7 @@
+sections/introduction.md
+sections/theory.md
+sections/implementation.md
+sections/results.md
+sections/discussion.md
+sections/conclusion.md
+sections/appendices/bibliography.md
