@@ -1,0 +1,41 @@
+name: build
+
+on: push
+
+jobs:
+  convert_via_pandoc_and_deploy:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Find and Replace
+        uses: jacobtomlinson/gha-find-replace@master
+        with:
+          find: "\n"
+          replace: " "
+          include: "index.txt"
+      - uses: pCYSl5EDgo/cat@master
+        id: index
+        with:
+          path: index.txt
+      - uses: docker://mahoyen/mypandoc:0.4.0
+        with:
+          args: >-
+            --from markdown+footnotes
+            --to latex
+            --template main.tex
+            --data-dir /github/workspace
+            --lua-filter settings/pandoc-gls.lua
+            --filter pandoc-citeproc
+            --bibliography=bibliography.bib
+            --out build/report.pdf
+            ${{ steps.index.outputs.text }}
+      - run: |
+          mv build/ public/
+          echo "<embed src="report.pdf" width="100%" height="100%" />" > public/index.html
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@3.6.2
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages # The branch the action should deploy to.
+          FOLDER: public # The folder the action should deploy.
+          CLEAN: true # Automatically remove deleted files from the deploy branch
